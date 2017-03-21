@@ -39,12 +39,13 @@ public class InterestResource {
     /**
      * Retrieves representation of an instance of khp.pba.bank.InterestResource
      * @param account
-     * @return an instance of java.lang.String
+     * @return 
+     * 
      */
     @GET
     @Path("{account}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson(@PathParam("account") String account) {
+    public JsonObject getJson(@PathParam("account") String account) {
         Double d = Double.parseDouble(account);
         Double interest;
         if(d < 100){
@@ -57,7 +58,7 @@ public class InterestResource {
             interest = 0.07;
         }
         JsonObject result = Json.createObjectBuilder().add("Interest", (d * interest)).build();
-        return result.toString();
+        return result;
     }
 
     /**

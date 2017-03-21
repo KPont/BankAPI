@@ -37,31 +37,34 @@ public class DiscountResource {
 
     /**
      * Retrieves representation of an instance of khp.pba.bank.DiscountResource
-     * @param temp
+     * @param nc
+     * @param lc
+     * @param coup
      * @return an instance of java.lang.String
      */
     @GET
-    @Path("{temp}")
+    @Path("{newcustomer}/{loyaltycard}/{coupon}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getJson(@PathParam("temp") String temp) {
+    public JsonObject getJson(@PathParam("newcustomer") String nc, @PathParam("loyaltycard") String lc, @PathParam("coupon") String coup) {
         //TODO return proper representation object
-        String t = temp.toLowerCase();
+        String t = nc.toLowerCase();
         Double discount = 0.0;
-        switch (t) {
-            case "newcustomer":
-                discount = 0.15;
-                break;
-            case "loyaltycard":
-                discount = 0.10;
-                break;
-            case "coupon":
-                discount = 0.20;
-                break;
-            default:
-                break;
+        boolean isNc = nc.toLowerCase().equals("true");
+        boolean isLc = lc.toLowerCase().equals("true");
+        boolean isCoup = coup.toLowerCase().equals("true");
+        
+        if(isCoup){
+            discount = 0.20;
         }
+        else if(isNc){
+            discount = 0.15;
+        }
+        else if(isLc){
+            discount = 0.10;
+        }
+        
         JsonObject result = Json.createObjectBuilder().add("Discount", discount).build();
-        return result.toString();
+        return result;
     }
 
     /**
